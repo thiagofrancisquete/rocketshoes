@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import CartPage from './pages/Cart';
-import HomePage from './pages/Home';
+import CartPage from './pages/Cart/index';
+import HomePage from './pages/Home/index';
 
 export default function Routes() {
   return (
