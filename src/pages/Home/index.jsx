@@ -2,23 +2,31 @@ import React, { useEffect, useState } from 'react';
 import { MdAddShoppingCart } from 'react-icons/md';
 import api from '../../services/api';
 
+import { connect } from 'react-redux';
+
 import { ProductList } from './styles';
 
-const HomePage = () => {
+const HomePage = ({ dispatch }) => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     async function loadProducts() {
-      const response = await api.get('products');
-
-      const data = response.data.map(product => ({
-        ...product
-      }));
-
-      setProducts(data);
+      try {
+        const res = await api.get('products');
+        setProducts(res.data);
+      } catch (error) {
+        console.log(error);
+      }
     }
     loadProducts();
   }, []);
+
+  function handleAddProduct(product) {
+    dispatch({
+      type: 'ADD_TO_CART',
+      product
+    })
+  }
 
   return (
     <ProductList>
@@ -28,7 +36,7 @@ const HomePage = () => {
           <strong>{product.title}</strong>
           <span>r$ {product.price}</span>
 
-          <button>
+          <button onClick={() => handleAddProduct(product)}>
             <div>
               <MdAddShoppingCart size={16} color="#fff" />
             </div>
@@ -41,4 +49,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default connect()(HomePage);
