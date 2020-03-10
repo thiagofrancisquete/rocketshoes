@@ -8,7 +8,10 @@ import {
   MdDelete
 } from 'react-icons/md';
 
-const CartPage = ({ cart }) => {
+import * as CartActions from '../../redux/modules/cart/actions';
+import { bindActionCreators } from 'redux';
+
+const CartPage = ({ cart, removeFromCart }) => {
   return (
     <Container>
       <ProductTable>
@@ -45,7 +48,12 @@ const CartPage = ({ cart }) => {
                 <strong>r$ 258,80</strong>
               </td>
               <td>
-                <button type="button">
+                <button
+                  type="button"
+                  onClick={() =>
+                    removeFromCart(product.id)
+                  }
+                >
                   <MdDelete size={20} color="#7159c1" />
                 </button>
               </td>
@@ -71,4 +79,8 @@ const mapStateToProps = state => ({
   cart: state.cart
 });
 
-export default connect(mapStateToProps)(CartPage);
+// pega as actions e passa pra propriedades
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(CartPage);
