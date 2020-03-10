@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { MdAddShoppingCart } from 'react-icons/md';
 import api from '../../services/api';
 
-import { connect } from 'react-redux';
+import * as CartActions from '../../redux/modules/cart/actions';
 
 import { ProductList } from './styles';
 
@@ -22,10 +23,7 @@ const HomePage = ({ dispatch }) => {
   }, []);
 
   function handleAddProduct(product) {
-    dispatch({
-      type: 'ADD_TO_CART',
-      product
-    })
+    dispatch(CartActions.addToCart(product));
   }
 
   return (
@@ -48,5 +46,9 @@ const HomePage = ({ dispatch }) => {
     </ProductList>
   );
 };
+
+// converte actions do reducer em propriedades do componente
+// const mapDispatchToProps = dispatch =>
+//   bindActionCreators(CartActions, dispatch);
 
 export default connect()(HomePage);
