@@ -24,6 +24,7 @@ const HomePage = ({ dispatch }) => {
 
   function handleAddProduct(product) {
     dispatch(CartActions.addToCart(product));
+    console.log('from homepage: ', product);
   }
 
   return (
@@ -47,8 +48,14 @@ const HomePage = ({ dispatch }) => {
   );
 };
 
+const mapStateToProps = state => ({
+  amount: state.cart.reduce((amount, product) => {
+    return (amount[product.id] = product.amount);
+  }, {})
+});
+
 // converte actions do reducer em propriedades do componente
 // const mapDispatchToProps = dispatch =>
 //   bindActionCreators(CartActions, dispatch);
 
-export default connect()(HomePage);
+export default connect(mapStateToProps, null)(HomePage);
